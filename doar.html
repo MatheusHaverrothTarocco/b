@@ -8,23 +8,50 @@
 <body>
 <div class="container">
     <h2>Cadastro de Doação</h2>
-    <form id="doacaoForm">
+    <form>
+        <!-- Usuário (apenas visual, Swing vai preencher) -->
+        <div class="form-group">
+            <label>Nome:</label>
+            <input type="text" placeholder="Nome do usuário" readonly>
+        </div>
+        <div class="form-group">
+            <label>Sobrenome:</label>
+            <input type="text" placeholder="Sobrenome" readonly>
+        </div>
+        <div class="form-group">
+            <label>Endereço:</label>
+            <input type="text" placeholder="Endereço" readonly>
+        </div>
+        <div class="form-group">
+            <label>Telefone:</label>
+            <input type="text" placeholder="Telefone" readonly>
+        </div>
+
+        <!-- Doação -->
         <div class="form-group">
             <label>Descrição:</label>
-            <textarea id="descricao" required></textarea>
+            <textarea placeholder="Descrição da doação"></textarea>
         </div>
         <div class="form-group">
             <label>Tipo:</label>
-            <select id="tipo" required></select>
+            <select>
+                <option>Selecione o tipo</option>
+                <option>Roupas</option>
+                <option>Alimentos</option>
+                <option>Brinquedos</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Status:</label>
+            <input type="text" value="Disponível" readonly>
         </div>
         <div class="form-group">
             <label>Foto:</label>
-            <input type="file" id="foto">
+            <input type="file" accept="image/*">
         </div>
-        <button type="button" onclick="enviarDoacao()">Cadastrar Doação</button>
+
+        <button type="submit">Cadastrar Doação</button>
     </form>
 </div>
-
-<script src="script.js"></script>
 </body>
 </html>
