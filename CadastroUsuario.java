@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/CadastroUsuario")
 public class CadastroUsuario extends HttpServlet {
@@ -16,17 +16,17 @@ public class CadastroUsuario extends HttpServlet {
 
     // Configuração do MySQL
     private static final String URL = "jdbc:mysql://localhost:3306/trocatreco?useSSL=false&serverTimezone=UTC";
-    private static final String USER = "root";   // seu usuário do MySQL
+    private static final String USER = "root";       // seu usuário do MySQL
     private static final String PASSWORD = "senha"; // sua senha do MySQL
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        // Pega os dados do formulário
+        // Pega os dados do formulário (Cadastro.html)
         String nome = request.getParameter("nome");
         String sobrenome = request.getParameter("sobrenome");
         String cpf = request.getParameter("cpf");
@@ -38,16 +38,16 @@ public class CadastroUsuario extends HttpServlet {
         String senha = request.getParameter("senha");
 
         try {
-            // Carrega o driver do MySQL
+            // Carrega driver JDBC do MySQL
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // Conecta no banco
+            // Conexão com o banco
             Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
 
-            // Query de insert
+            // Query de inserção
             String sql = "INSERT INTO usuarios (nome, sobrenome, cpf, endereco, cep, numero, telefone, usuario, senha) "
                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            
+
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, nome);
             ps.setString(2, sobrenome);
@@ -66,6 +66,7 @@ public class CadastroUsuario extends HttpServlet {
                 out.println("<a href='Login.html'>Ir para Login</a>");
             } else {
                 out.println("<h2>Erro ao cadastrar usuário.</h2>");
+                out.println("<a href='Cadastro.html'>Tentar novamente</a>");
             }
 
             ps.close();
@@ -73,6 +74,7 @@ public class CadastroUsuario extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             out.println("<h2>Erro: " + e.getMessage() + "</h2>");
+            out.println("<a href='Cadastro.html'>Voltar</a>");
         }
     }
 }
