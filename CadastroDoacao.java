@@ -15,12 +15,11 @@ public class CadastroDoacao extends JFrame {
     private File fotoFile = null;
     private ArrayList<Integer> tiposIds = new ArrayList<>();
 
-    // Configuração do MySQL
     private final String DB_URL = "jdbc:mysql://localhost:3306/troca_treco";
     private final String DB_USER = "root";
     private final String DB_PASS = "suasenha";
 
-    private int idUsuario = 1; // exemplo: usuário logado
+    private int idUsuario = 1; // Exemplo: usuário logado
 
     public CadastroDoacao() {
         setTitle("Cadastro de Doação");
