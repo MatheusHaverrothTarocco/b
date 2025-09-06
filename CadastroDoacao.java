@@ -4,29 +4,29 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/CadastroDoacao")
-public class CadastroDoacao extends HttpServlet {
+@WebServlet("/CadastroUsuario")
+public class CadastroUsuario extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    // Configuração do banco
-    private static final String URL = "jdbc:mysql://localhost:3306/trocatreco";
-    private static final String USER = "root";
-    private static final String PASSWORD = "senha";
+    // Configuração do MySQL
+    private static final String URL = "jdbc:mysql://localhost:3306/trocatreco?useSSL=false&serverTimezone=UTC";
+    private static final String USER = "root";       // seu usuário do MySQL
+    private static final String PASSWORD = "senha"; // sua senha do MySQL
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        // Pega os parâmetros do formulário
+        // Pega os dados do formulário (Cadastro.html)
         String nome = request.getParameter("nome");
         String sobrenome = request.getParameter("sobrenome");
         String cpf = request.getParameter("cpf");
@@ -36,19 +36,18 @@ public class CadastroDoacao extends HttpServlet {
         String telefone = request.getParameter("telefone");
         String usuario = request.getParameter("usuario");
         String senha = request.getParameter("senha");
-        String descricao = request.getParameter("descricao");
-        String tipo = request.getParameter("tipo");
-        String status = request.getParameter("status");
 
         try {
-            // Conecta no banco
+            // Carrega driver JDBC do MySQL
             Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Conexão com o banco
             Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
 
-            // Exemplo simples: inserir em uma tabela unica (ajuste conforme seu banco)
-            String sql = "INSERT INTO doacoes (nome, sobrenome, cpf, endereco, cep, numero, telefone, usuario, senha, descricao, tipo, status) "
-                       + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            
+            // Query de inserção
+            String sql = "INSERT INTO usuarios (nome, sobrenome, cpf, endereco, cep, numero, telefone, usuario, senha) "
+                       + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, nome);
             ps.setString(2, sobrenome);
@@ -59,16 +58,15 @@ public class CadastroDoacao extends HttpServlet {
             ps.setString(7, telefone);
             ps.setString(8, usuario);
             ps.setString(9, senha);
-            ps.setString(10, descricao);
-            ps.setString(11, tipo);
-            ps.setString(12, status);
 
             int rows = ps.executeUpdate();
 
             if (rows > 0) {
-                out.println("<h2>Cadastro realizado com sucesso!</h2>");
+                out.println("<h2>Usuário cadastrado com sucesso!</h2>");
+                out.println("<a href='Login.html'>Ir para Login</a>");
             } else {
-                out.println("<h2>Erro ao cadastrar.</h2>");
+                out.println("<h2>Erro ao cadastrar usuário.</h2>");
+                out.println("<a href='Cadastro.html'>Tentar novamente</a>");
             }
 
             ps.close();
@@ -76,6 +74,7 @@ public class CadastroDoacao extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             out.println("<h2>Erro: " + e.getMessage() + "</h2>");
+            out.println("<a href='Cadastro.html'>Voltar</a>");
         }
     }
 }
