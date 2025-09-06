@@ -1,0 +1,127 @@
+/* ================================
+   Estilo - Login & Cadastro Troca Treco
+   Tema: Amarelo (#ffeb3b) + Roxo
+   ================================ */
+
+   :root {
+    --primaria: #ffeb3b;   /* Amarelo vibrante */
+    --secundaria: #6a1b9a; /* Roxo forte */
+    --texto: #212121;      /* Cinza escuro para legibilidade */
+    --fundo: #fffde7;      /* Amarelo clarinho para fundo */
+    --branco: #ffffff;
+  }
+  
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--fundo);
+    color: var(--texto);
+    line-height: 1.6;
+  }
+  
+  /* Cabeçalho */
+  header {
+    background-color: var(--primaria);
+    color: var(--secundaria);
+    text-align: center;
+    padding: 25px 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  
+  /* Menu de navegação */
+  nav {
+    background-color: var(--secundaria);
+    text-align: center;
+    padding: 12px 0;
+  }
+  
+  nav a {
+    color: var(--branco);
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: 600;
+    transition: 0.3s;
+  }
+  
+  nav a:hover {
+    color: var(--primaria);
+  }
+  
+  /* Container principal */
+  .container {
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 30px;
+    background: var(--branco);
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  }
+  
+  .container h2 {
+    text-align: center;
+    color: var(--secundaria);
+    margin-bottom: 20px;
+  }
+  
+  /* Formulários */
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: var(--secundaria);
+  }
+  
+  input {
+    padding: 10px;
+    border: 2px solid var(--primaria);
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: var(--secundaria);
+    box-shadow: 0 0 5px rgba(106, 27, 154, 0.5);
+  }
+  
+  /* Botões */
+  button {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: var(--secundaria);
+    color: var(--branco);
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  button:hover {
+    background-color: #4a148c; /* Roxo mais escuro */
+  }
+  
+  /* Link para cadastro */
+  .cadastro-link {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .cadastro-link a {
+    color: var(--secundaria);
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .cadastro-link a:hover {
+    text-decoration: underline;
+  }
+  

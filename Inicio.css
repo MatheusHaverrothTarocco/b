@@ -1,0 +1,111 @@
+/* ================================
+   Estilo - Tela Inicial Troca Treco
+   Tema: Amarelo (#ffeb3b) + Roxo
+   ================================ */
+
+   :root {
+    --primaria: #ffeb3b;   /* Amarelo vibrante */
+    --secundaria: #6a1b9a; /* Roxo forte */
+    --texto: #212121;      /* Cinza escuro para legibilidade */
+    --fundo: #fffde7;      /* Amarelo clarinho para fundo */
+    --branco: #ffffff;
+  }
+  
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--fundo);
+    color: var(--texto);
+    line-height: 1.6;
+  }
+  
+  /* Cabeçalho */
+  header {
+    background-color: var(--primaria);
+    color: var(--secundaria);
+    text-align: center;
+    padding: 30px 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  
+  /* Menu de navegação */
+  nav {
+    background-color: var(--secundaria);
+    text-align: center;
+    padding: 12px 0;
+  }
+  
+  nav a {
+    color: var(--branco);
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: 600;
+    transition: 0.3s;
+  }
+  
+  nav a:hover {
+    color: var(--primaria);
+  }
+  
+  /* Container principal */
+  .container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+  }
+  
+  /* Blocos de conteúdo */
+  .container h2 {
+    background: var(--primaria);
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    margin-top: 30px;
+    color: var(--secundaria);
+  }
+  
+  .container p,
+  .container ul {
+    background: var(--branco);
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin: 15px 0 30px;
+  }
+  
+  /* Listas */
+  ul {
+    list-style-type: disc;
+    padding-left: 40px;
+  }
+  
+  /* Sobre mim */
+  .sobre-mim {
+    background: var(--branco);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    margin-top: 20px;
+  }
+  
+  .sobre-mim h3 {
+    margin-top: 20px;
+    color: var(--secundaria);
+  }
+  
+  /* Foto de perfil */
+  .foto-perfil {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .foto-perfil img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--secundaria);
+  }
+  
