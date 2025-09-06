@@ -17,7 +17,8 @@
 
   <div class="container">
     <h2>Login</h2>
-    <form action="CadastroDoacao.jsp" method="post">
+    <!-- envia os dados para o Servlet LoginUsuario -->
+    <form action="LoginUsuario" method="post">
       <label for="usuario">Usuário</label>
       <input type="text" id="usuario" name="usuario" required>
 
@@ -27,7 +28,7 @@
       <button type="submit">Entrar</button>
 
       <div class="cadastro-link">
-        <a href="Cadastro.html">Cadastre-se</a>
+        <a href="Cadastro.html">Não tem conta? Cadastre-se</a>
       </div>
     </form>
   </div>
