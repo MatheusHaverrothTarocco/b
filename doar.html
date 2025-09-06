@@ -2,47 +2,62 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Visual - Cadastro de Doação</title>
-    <link rel="stylesheet" href="visual.css">
+    <title>Cadastro de Doação - Troca Treco</title>
+    <link rel="stylesheet" href="doar.css">
 </head>
 <body>
+<header><h1>TROCA TRECO</h1></header>
+
+<nav>
+    <a href="index.html">Início</a>
+    <a href="doar.html">Doar</a>
+    <a href="doacoes.html">Doações</a>
+    <a href="login.html">Conta</a>
+</nav>
+
 <div class="container">
     <h2>Cadastro de Doação</h2>
-    <div class="form-group">
-        <label>Nome:</label>
-        <input type="text" readonly>
-    </div>
-    <div class="form-group">
-        <label>Sobrenome:</label>
-        <input type="text" readonly>
-    </div>
-    <div class="form-group">
-        <label>Endereço:</label>
-        <input type="text" readonly>
-    </div>
-    <div class="form-group">
-        <label>Telefone:</label>
-        <input type="text" readonly>
-    </div>
-    <div class="form-group">
-        <label>Descrição:</label>
-        <textarea placeholder="Descrição da doação"></textarea>
-    </div>
-    <div class="form-group">
-        <label>Tipo:</label>
-        <select>
-            <option>Selecione o tipo</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label>Status:</label>
-        <input type="text" value="Disponível" readonly>
-    </div>
-    <div class="form-group">
-        <label>Foto:</label>
-        <input type="file" accept="image/*">
-    </div>
-    <button>Cadastrar Doação</button>
+    <form action="CadastroDoacao.jsp" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Nome:</label>
+            <input type="text" name="nome" required>
+        </div>
+        <div class="form-group">
+            <label>Sobrenome:</label>
+            <input type="text" name="sobrenome" required>
+        </div>
+        <div class="form-group">
+            <label>Endereço:</label>
+            <input type="text" name="endereco" required>
+        </div>
+        <div class="form-group">
+            <label>Telefone:</label>
+            <input type="text" name="telefone" required>
+        </div>
+        <div class="form-group">
+            <label>Descrição:</label>
+            <textarea name="descricao" placeholder="Descrição da doação" required></textarea>
+        </div>
+        <div class="form-group">
+            <label>Tipo:</label>
+            <select name="tipo" required>
+                <option value="">Selecione o tipo</option>
+                <option value="roupa">Roupa</option>
+                <option value="eletrodomestico">Eletrodoméstico</option>
+                <option value="moveis">Móveis</option>
+                <option value="outros">Outros</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Status:</label>
+            <input type="text" name="status" value="Disponível" readonly>
+        </div>
+        <div class="form-group">
+            <label>Foto:</label>
+            <input type="file" name="foto" accept="image/*" required>
+        </div>
+        <button type="submit">Cadastrar Doação</button>
+    </form>
 </div>
 </body>
 </html>
