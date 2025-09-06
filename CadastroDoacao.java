@@ -1,126 +1,81 @@
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.sql.*;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
-public class CadastroDoacao extends JFrame {
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-    private JTextField tfNome, tfSobrenome, tfEndereco, tfTelefone;
-    private JTextArea taDescricao;
-    private JComboBox<String> cbTipo;
-    private JButton btnCadastrar, btnSelecionarFoto;
-    private File fotoFile = null;
-    private ArrayList<Integer> tiposIds = new ArrayList<>();
+@WebServlet("/CadastroDoacao")
+public class CadastroDoacao extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
-    private final String DB_URL = "jdbc:mysql://localhost:3306/troca_treco";
-    private final String DB_USER = "root";
-    private final String DB_PASS = "suasenha";
+    // Configuração do banco
+    private static final String URL = "jdbc:mysql://localhost:3306/trocatreco";
+    private static final String USER = "root";
+    private static final String PASSWORD = "senha";
 
-    private int idUsuario = 1; // Usuário logado
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
 
-    public CadastroDoacao() {
-        setTitle("Cadastro de Doação");
-        setSize(400, 500);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new GridLayout(0,1,5,5));
+        // Pega os parâmetros do formulário
+        String nome = request.getParameter("nome");
+        String sobrenome = request.getParameter("sobrenome");
+        String cpf = request.getParameter("cpf");
+        String endereco = request.getParameter("endereco");
+        String cep = request.getParameter("cep");
+        String numero = request.getParameter("numero");
+        String telefone = request.getParameter("telefone");
+        String usuario = request.getParameter("usuario");
+        String senha = request.getParameter("senha");
+        String descricao = request.getParameter("descricao");
+        String tipo = request.getParameter("tipo");
+        String status = request.getParameter("status");
 
-        tfNome = new JTextField(); tfNome.setEditable(false);
-        tfSobrenome = new JTextField(); tfSobrenome.setEditable(false);
-        tfEndereco = new JTextField(); tfEndereco.setEditable(false);
-        tfTelefone = new JTextField(); tfTelefone.setEditable(false);
+        try {
+            // Conecta no banco
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
 
-        taDescricao = new JTextArea(3,20);
-        cbTipo = new JComboBox<>();
+            // Exemplo simples: inserir em uma tabela unica (ajuste conforme seu banco)
+            String sql = "INSERT INTO doacoes (nome, sobrenome, cpf, endereco, cep, numero, telefone, usuario, senha, descricao, tipo, status) "
+                       + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, nome);
+            ps.setString(2, sobrenome);
+            ps.setString(3, cpf);
+            ps.setString(4, endereco);
+            ps.setString(5, cep);
+            ps.setString(6, numero);
+            ps.setString(7, telefone);
+            ps.setString(8, usuario);
+            ps.setString(9, senha);
+            ps.setString(10, descricao);
+            ps.setString(11, tipo);
+            ps.setString(12, status);
 
-        btnSelecionarFoto = new JButton("Selecionar Foto");
-        btnSelecionarFoto.addActionListener(e -> {
-            JFileChooser fc = new JFileChooser();
-            if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
-                fotoFile = fc.getSelectedFile();
-        });
+            int rows = ps.executeUpdate();
 
-        btnCadastrar = new JButton("Cadastrar Doação");
-        btnCadastrar.addActionListener(e -> cadastrarDoacao());
-
-        add(new JLabel("Nome:")); add(tfNome);
-        add(new JLabel("Sobrenome:")); add(tfSobrenome);
-        add(new JLabel("Endereço:")); add(tfEndereco);
-        add(new JLabel("Telefone:")); add(tfTelefone);
-        add(new JLabel("Descrição:")); add(new JScrollPane(taDescricao));
-        add(new JLabel("Tipo:")); add(cbTipo);
-        add(btnSelecionarFoto); add(btnCadastrar);
-
-        carregarUsuario();
-        carregarTipos();
-
-        setVisible(true);
-    }
-
-    private void carregarUsuario(){
-        try(Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)){
-            PreparedStatement ps = conn.prepareStatement(
-                "SELECT nome, sobrenome, endereco, telefone FROM usuario WHERE id_usuario=?");
-            ps.setInt(1, idUsuario);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                tfNome.setText(rs.getString("nome"));
-                tfSobrenome.setText(rs.getString("sobrenome"));
-                tfEndereco.setText(rs.getString("endereco"));
-                tfTelefone.setText(rs.getString("telefone"));
+            if (rows > 0) {
+                out.println("<h2>Cadastro realizado com sucesso!</h2>");
+            } else {
+                out.println("<h2>Erro ao cadastrar.</h2>");
             }
-        } catch(SQLException e){
+
+            ps.close();
+            con.close();
+        } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erro ao carregar usuário");
+            out.println("<h2>Erro: " + e.getMessage() + "</h2>");
         }
-    }
-
-    private void carregarTipos(){
-        try(Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)){
-            PreparedStatement ps = conn.prepareStatement("SELECT id, descricao FROM tipo");
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                tiposIds.add(rs.getInt("id"));
-                cbTipo.addItem(rs.getString("descricao"));
-            }
-        } catch(SQLException e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erro ao carregar tipos");
-        }
-    }
-
-    private void cadastrarDoacao(){
-        String descricao = taDescricao.getText();
-        if(descricao.isEmpty() || cbTipo.getSelectedIndex() < 0){
-            JOptionPane.showMessageDialog(this, "Preencha descrição e selecione um tipo");
-            return;
-        }
-
-        int idTipo = tiposIds.get(cbTipo.getSelectedIndex());
-        String status = "Disponível";
-
-        try(Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)){
-            PreparedStatement ps = conn.prepareStatement(
-                "INSERT INTO doacao (descricao, id_tipo, status, foto, id_usuario) VALUES (?,?,?,?,?)");
-            ps.setString(1, descricao);
-            ps.setInt(2, idTipo);
-            ps.setString(3, status);
-            if(fotoFile != null) ps.setBlob(4, new FileInputStream(fotoFile));
-            else ps.setNull(4, Types.BLOB);
-            ps.setInt(5, idUsuario);
-
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Doação cadastrada com sucesso!");
-            taDescricao.setText(""); cbTipo.setSelectedIndex(0); fotoFile=null;
-
-        } catch(Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erro ao cadastrar doação");
-        }
-    }
-
-    public static void main(String[] args){
-        new CadastroDoacao();
     }
 }
